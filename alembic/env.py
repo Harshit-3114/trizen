@@ -5,11 +5,15 @@ from sqlalchemy import pool
 
 from alembic import context
 
-# add your model's MetaData object here
-# for 'autogenerate' support
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + '/..'))
+
+# add your model''s MetaData object here
+# for ''autogenerate'' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from app.models.base import Base
+from backend.app.models.base import Base
 target_metadata = Base.metadata
 
 # this is the Alembic Config object, which provides
@@ -38,7 +42,13 @@ def run_migrations_offline():
     SQL string to the database.
 
     """
-    url = config.get_main_option("url")
+    # Load environment variables from .env file
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass  # dotenv not available, continue without it
+    url = os.environ.get("DATABASE_URL")
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -57,8 +67,16 @@ def run_migrations_online():
     a connection to the database.
 
     """
+    # Load environment variables from .env file
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass  # dotenv not available, continue without it
+    url = os.environ.get("DATABASE_URL")
+    from sqlalchemy import engine_from_config
     connectable = engine_from_config(
-        config.get_section("config.ini_section"),
+        {"sqlalchemy.url": url},
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )

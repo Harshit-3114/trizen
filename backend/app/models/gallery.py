@@ -16,3 +16,15 @@ class Gallery(Base):
     
     # Relationships
     event = relationship("Event")
+    
+    def set_pin(self, pin: str):
+        """Hash and set the PIN for this gallery."""
+        from passlib.context import CryptContext
+        pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+        self.pin_hash = pwd_context.hash(pin)
+
+    def verify_pin(self, pin: str) -> bool:
+        """Verify a PIN against the stored hash."""
+        from passlib.context import CryptContext
+        pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+        return pwd_context.verify(pin, self.pin_hash)
