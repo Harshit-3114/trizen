@@ -1,3 +1,21 @@
 .worktrees
 .env
 frontend/.env
+
+# Python
+__pycache__/
+*.pyc
+*.bak
+
+# Environment variables
+.env
+frontend/.env
+
+# Database
+test.db
+
+# Test files
+test_module.py
+
+# Opencode skill system
+superpowers/sdd/
