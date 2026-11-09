@@ -1,21 +1,42 @@
-.worktrees
+# === Secrets: never commit (see backend/.env.example) ===
 .env
-frontend/.env
+.env.*
+!.env.example
+backend/.env*
+!backend/.env.example
+frontend/.env*
 
-# Python
+# === Python ===
 __pycache__/
-*.pyc
+*.py[cod]
 *.bak
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
 
-# Environment variables
-.env
-frontend/.env
+# === Databases: local/dev only, recreated via seed.py ===
+*.db
+*.sqlite3
 
-# Database
-test.db
+# === Uploads: local-disk storage only (use S3 in production) ===
+uploads/
+backend/uploads/
 
-# Test files
-test_module.py
+# === Frontend ===
+frontend/node_modules/
+frontend/build/
+frontend/coverage/
 
-# Opencode skill system
-superpowers/sdd/
+# === Agent/skill working data: not part of the product ===
+.superpowers/
+superpowers/
+.worktrees/
+design-system/
+
+# === Logs, OS and editor files ===
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
